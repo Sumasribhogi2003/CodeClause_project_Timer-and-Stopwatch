@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stopwatch</title>
+  <style>
+    .stopwatch {
+      text-align: center;
+      margin: 20px auto;
+    }
+    
+    .display {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    
+    .start-btn,
+    .stop-btn,
+    .reset-btn {
+      font-size: 24px;
+      padding: 10px;
+      margin-right: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #044406;
+      color: white;
+    }
+    
+    .stop-btn,
+    .reset-btn {
+      background-color: #044406;
+    }
+  </style>
+</head>
+<body bgcolor="pink">
+    <h1><marquee bgcolor="white">STOP WATCH</marquee></h1>
+  <div class="stopwatch">
+    <div class="display">00:00:00.000</div>
+    <button class="start-btn" onclick="startStopwatch()">Start</button>
+    <button class="stop-btn" onclick="stopStopwatch()">Stop</button>
+    <button class="reset-btn" onclick="resetStopwatch()">Reset</button>
+  </div>
+
+  <script>
+    let startTime;
+    let interval;
+    let elapsed = 0;
+    
+    function startStopwatch() {
+      startTime = Date.now() - elapsed;
+      interval = setInterval(updateStopwatch, 10);
+    }
+    
+    function stopStopwatch() {
+      clearInterval(interval);
+      elapsed = Date.now() - startTime;
+    }
+    
+    function resetStopwatch() {
+      clearInterval(interval);
+      elapsed = 0;
+      displayStopwatch();
+    }
+    
+    function updateStopwatch() {
+      elapsed = Date.now() - startTime;
+      displayStopwatch();
+    }
+    
+    function displayStopwatch() {
+      let hours = Math.floor(elapsed / 3600000);
+      let minutes = Math.floor((elapsed - (hours * 3600000)) / 60000);
+      let seconds = Math.floor((elapsed - (hours * 3600000) - (minutes * 60000)) / 1000);
+      let milliseconds = elapsed % 1000;
+    
+      document.querySelector('.display').innerHTML = 
+        ('0' + hours).slice(-2) + ':' +
+        ('0' + minutes).slice(-2) + ':' +
+        ('0' + seconds).slice(-2) + '.' +
+        ('00' + milliseconds).slice(-3);
+    }
+  </script>
+</body>
+</html>

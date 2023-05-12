@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Timer with Alert Sound</title>
+  <style>
+    #timer {
+      font-size: 40px;
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body bgcolor="violet">
+    <h1><marquee bgcolor="white">TIMER</marquee></h1>
+  <div id="timer">00:00:00</div><br>
+  <center>
+  <button id="startButton">Start</button>
+  <button id="stopButton">Stop</button>
+  <audio id="alertSound" src="alert.mp3"></audio>
+</center>
+  <script>
+    var timerDisplay = document.getElementById('timer');
+    var startButton = document.getElementById('startButton');
+    var stopButton = document.getElementById('stopButton');
+    var alertSound = document.getElementById('alertSound');
+    var timerInterval;
+    var hours = 0, minutes = 0, seconds = 10;
+
+    function formatTime(time) {
+      if (time < 10) {
+        return '0' + time;
+      } else {
+        return time;
+      }
+    }
+
+    function updateTimer() {
+      if (seconds === 0 && minutes === 0 && hours === 0) {
+        clearInterval(timerInterval);
+        alertSound.play();
+        return;
+      }
+      if (seconds === 0) {
+        seconds = 59;
+        if (minutes === 0) {
+          minutes = 59;
+          hours--;
+        } else {
+          minutes--;
+        }
+      } else {
+        seconds--;
+      }
+      timerDisplay.innerHTML = formatTime(hours) + ':' + formatTime(minutes) + ':' + formatTime(seconds);
+    }
+
+    function startTimer() {
+      if (!timerInterval) {
+        timerInterval = setInterval(updateTimer, 1000);
+      }
+    }
+
+    function stopTimer() {
+  if (timerInterval) {
+    alertSound.play();
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+}
+
+
+    startButton.addEventListener('click', startTimer);
+    stopButton.addEventListener('click', stopTimer);
+  </script>
+</body>
+</html>
